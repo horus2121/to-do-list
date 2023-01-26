@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from './translate.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
   task: string = '';
   taskList: string[] = [];
+  translatedText: string = '';
+
+  constructor(private translateService: TranslateService) { }
 
   onChangeTask(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -28,5 +32,8 @@ export class AppComponent {
   }
 
   onTranslateText() {
+    this.translateService.translate(this.task).subscribe((result) => {
+      this.translatedText = result;
+    })
   }
 }
