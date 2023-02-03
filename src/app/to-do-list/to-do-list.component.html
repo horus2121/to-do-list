@@ -1,0 +1,26 @@
+<h1>To-do List</h1>
+
+<div>
+  <label>New Task</label>
+  <input 
+    type="text" 
+    (input)="onChangeTask($event)" 
+    [value]="task"
+    placeholder="Enter a new task">
+  <button 
+    (click)="onAddTask()" 
+    [disabled]="!task">Add</button>
+</div>
+
+<ul *ngFor = "let task of taskList;">
+  <li>
+    <span>{{ task }}</span>
+    <button (click)="onDeleteTask($event)">Delete</button>
+  </li>
+</ul>
+
+<div>
+  <button (click)="onTranslateText()">Translate to Espanol!</button>
+</div> 
+
+{{ translatedText }}
