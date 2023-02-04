@@ -1,0 +1,17 @@
+import { Component } from '@angular/core';
+import { SessionService } from '../services/session.service';
+
+@Component({
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
+})
+export class ProfileComponent {
+  currentUser: any;
+
+  constructor(private sessionService: SessionService) { }
+
+  ngOnInit(): void {
+    this.currentUser = this.sessionService.getUser();
+  }
+}

@@ -12,13 +12,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule} from '@angular/material/icon';
 import { ToDoListComponent } from './to-do-list/to-do-list.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    ToDoListComponent
+    ToDoListComponent,
+    ProfileComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '../services/translate.service';
+import { ContentFilterService } from '../services/content-filter.service';
 
 @Component({
   selector: 'app-to-do-list',
@@ -11,7 +12,7 @@ export class ToDoListComponent {
   taskList: string[] = [];
   translatedText: string = '';
 
-  constructor(private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService, private contentFilterService: ContentFilterService) { }
 
   onChangeTask(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -35,5 +36,22 @@ export class ToDoListComponent {
     this.translateService.translate(this.task).subscribe((result) => {
       this.translatedText = result;
     })
+  }
+
+  content?: string;
+
+  ngOnInit(): void {
+    this.contentFilterService.getAdminBoard().subscribe({
+      next: data => {
+        this.content = data;
+      },
+      error: err => {console.log(err)
+        if (err.error) {
+          this.content = JSON.parse(err.error).message;
+        } else {
+          this.content = "Error with status: " + err.status;
+        }
+      }
+    });
   }
 }
