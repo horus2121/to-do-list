@@ -23,4 +23,12 @@
   <button (click)="onTranslateText()">Translate to Espanol!</button>
 </div> 
 
-{{ translatedText }}
+<div>
+  {{ translatedText }}
+</div>
+
+<div>
+  <input type="text" #test>
+  <button (click)="onTest(test.value)">Test</button>
+  <button (click)="onShow()">Show</button>
+</div>
