@@ -15,6 +15,15 @@ export class TaskActionService {
     public afs: AngularFirestore,
   ) { }
 
+  GetAllTasks() {
+    const user = JSON.parse(localStorage.getItem('user')!)
+    const taskCollection: AngularFirestoreCollection<any> = this.afs.collection(
+      `users/${user.uid}/tasks`
+    )
+
+    return taskCollection.snapshotChanges()
+  }
+
   CreateTask(task: Task) {
     const user = JSON.parse(localStorage.getItem('user')!)
     const taskCollection: AngularFirestoreCollection<any> = this.afs.collection(

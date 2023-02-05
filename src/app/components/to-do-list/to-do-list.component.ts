@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '../../services/translate.service';
 import { TaskActionService } from 'src/app/services/task-action.service';
 import { Task } from 'src/app/services/task';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-to-do-list',
@@ -18,6 +19,12 @@ export class ToDoListComponent {
     public taskAction: TaskActionService) { }
 
   ngOnInit(): void { }
+
+  onShow() {
+    const tasks = this.taskAction.GetAllTasks();
+    console.log(tasks)
+    tasks.pipe(map( task => console.log(task)))
+  }
 
   onTest(content: string) {
     const task = {
