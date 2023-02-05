@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '../../services/translate.service';
+import { TaskActionService } from 'src/app/services/task-action.service';
+import { Task } from 'src/app/services/task';
 
 @Component({
   selector: 'app-to-do-list',
@@ -11,7 +13,27 @@ export class ToDoListComponent {
   taskList: string[] = [];
   translatedText: string = '';
 
-  constructor(private translateService: TranslateService) { }
+  constructor(
+    private translateService: TranslateService,
+    public taskAction: TaskActionService) { }
+
+  ngOnInit(): void { }
+
+  onTest(content: string) {
+    const task = {
+      content: content,
+      status: "UNDONE"
+    }
+
+    this.taskAction
+    .CreateTask(task)
+    .then(() => {
+      window.alert('Task added successfully.')
+    })
+    .catch((error) => {
+      window.alert(error)
+    })
+  }
 
   onChangeTask(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -35,8 +57,5 @@ export class ToDoListComponent {
     this.translateService.translate(this.task).subscribe((result) => {
       this.translatedText = result;
     })
-  }
-
-  ngOnInit(): void {
   }
 }

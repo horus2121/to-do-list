@@ -26,3 +26,8 @@
 <div>
   {{ translatedText }}
 </div>
+
+<div>
+  <input type="text" #test>
+  <button (click)="onTest(test.value)">Test</button>
+</div>
