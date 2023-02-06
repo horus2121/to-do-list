@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '../../services/translate.service';
 import { TaskActionService } from 'src/app/services/task-action.service';
-import { Task } from 'src/app/services/task';
 import { map } from 'rxjs';
 
 @Component({

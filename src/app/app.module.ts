@@ -9,8 +9,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule} from '@angular/material/icon';
 import { ToDoListComponent } from './components/to-do-list/to-do-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
@@ -24,6 +22,8 @@ import { environment } from '../env/environments';
 import { AuthService } from './services/auth.service';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { AngularMaterialModule } from './angular-material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -41,8 +41,8 @@ import { VerifyEmailComponent } from './components/verify-email/verify-email.com
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MatFormFieldModule,
-    MatIconModule,
+    AngularMaterialModule,
+    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
