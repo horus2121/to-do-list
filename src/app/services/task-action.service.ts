@@ -30,31 +30,24 @@ export class TaskActionService {
       `users/${user.uid}/tasks`
     )
     const date = new Date()
-   
+    
     const taskData: Task = {
       content: task.content,
-      status: task.status,
+      done: task.done,
       createdAt: date
     };
 
     return taskCollection.add(taskData);
   }
 
-  EditTask(task: Task) {
+  EditTask(taskUid: string) {
     const user = JSON.parse(localStorage.getItem('user')!)
     const taskRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `users/${user.uid}/tasks/${task.uid}`
+      `users/${user.uid}/tasks/${taskUid}`
     )
     const date = new Date()
 
-    const taskData: Task = {
-      uid: task.uid,
-      content: task.content,
-      status: task.status,
-      updatedAt: date
-    }
-
-    return taskRef.update(taskData)
+    return taskRef.update({done: true, updatedAt: date})
   }
 
   AddUID(taskUid: string) {
