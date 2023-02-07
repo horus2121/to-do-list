@@ -6,33 +6,39 @@
     <input 
       type="text" 
       (input)="onChangeTask($event)" 
-      [value]="task"
+      [value]="taskContent"
       placeholder="Enter a new task">
     <button 
       (click)="onAddTask()" 
-      [disabled]="!task">Add</button>
+      [disabled]="!taskContent">Add</button>
   </div>
 
-  <ul *ngFor = "let task of taskList;">
-    <li>
-      <span>{{ task }}</span>
-      <button (click)="onDeleteTask($event)">Delete</button>
-    </li>
-  </ul>
+  <div *ngIf="!onSpanish">
+    <ul  *ngFor = "let task of taskList;">
+      <li [ngClass]="task.uid">
+        <span>{{ task.content }}</span>
+        <button (click)="onDeleteTask($event)">Delete</button>
+      </li>
+    </ul>
+  </div>
 
-  <div>
-    <button (click)="onTranslateText()">Translate to Espanol!</button>
+  <div *ngIf="onSpanish">
+    <ul  *ngFor = "let task of translatedTaskList;">
+      <li [ngClass]="task.uid">
+        <span>{{ task.content }}</span>
+        <button (click)="onDeleteTask($event)">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!onSpanish">
+    <button (click)="onSwitchToSP()">Translate to Espanol!</button>
   </div> 
 
-  <div>
-    {{ translatedText }}
-  </div>
+  <div *ngIf="onSpanish">
+    <button (click)="onSwitchToEN()">Back to English!</button>
+  </div> 
 
-  <div>
-    <input type="text" #test>
-    <button (click)="onTest(test.value)">Test</button>
-    <button (click)="onShow()">Show</button>
-  </div>
-
-  <button routerLink="home">Home Page</button>
+  <button routerLink="home">Home page</button>
+  <button (click)="authService.SignOut()">Sign out</button>
 </div>
