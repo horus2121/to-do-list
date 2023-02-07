@@ -5,7 +5,7 @@
     <label>New Task</label>
     <input 
       type="text" 
-      (input)="onChangeTask($event)" 
+      (input)="onChangeInput($event)" 
       [value]="taskContent"
       placeholder="Enter a new task">
     <button 
@@ -39,6 +39,5 @@
     <button (click)="onSwitchToEN()">Back to English!</button>
   </div> 
 
-  <button routerLink="home">Home page</button>
   <button (click)="authService.SignOut()">Sign out</button>
 </div>
