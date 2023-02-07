@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '../../services/translate.service';
 import { TaskActionService } from 'src/app/services/task-action.service';
-import { map } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { Task } from 'src/app/services/task';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-to-do-list',
@@ -9,59 +11,109 @@ import { map } from 'rxjs';
   styleUrls: ['./to-do-list.component.css']
 })
 export class ToDoListComponent {
-  task: string = '';
-  taskList: string[] = [];
-  translatedText: string = '';
+  taskContent: string = '';
+  taskList: Task[] = [];
+  translatedTaskList: Task[] = [];
+  onSpanish = false;
 
   constructor(
-    private translateService: TranslateService,
-    public taskAction: TaskActionService) { }
+    public translateService: TranslateService,
+    public authService: AuthService,
+    public taskAction: TaskActionService
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.onShow()
+   }
 
   onShow() {
-    const tasks = this.taskAction.GetAllTasks();
-    console.log(tasks)
-    tasks.pipe(map( task => console.log(task)))
-  }
-
-  onTest(content: string) {
-    const task = {
-      content: content,
-      status: "UNDONE"
-    }
-
-    this.taskAction
-    .CreateTask(task)
-    .then(() => {
-      window.alert('Task added successfully.')
-    })
-    .catch((error) => {
-      window.alert(error)
-    })
+    this.taskAction.GetAllTasks().subscribe(docs => this.taskList = docs);
   }
 
   onChangeTask(event: Event) {
     const target = event.target as HTMLInputElement;
     const value: string = target.value;
 
-    this.task = value;
+    this.taskContent = value;
   }
 
   onAddTask() {
-    this.taskList.push(this.task);
+    if (this.taskContent) {
+    const task = {
+      content: this.taskContent,
+      status: "UNDONE"
+    }
+
+    this.taskAction
+    .CreateTask(task)
+    .then((result) => {
+      window.alert('Task added successfully.')
+      this.taskContent = ''
+
+      this.taskAction.AddUID(result.id)
+      .catch((error) => {
+        window.alert(error)
+      })
+    })
+    .catch((error) => {
+      window.alert(error)
+    })
+    }
   }
 
   onDeleteTask(event: Event) {
     const target = event.target as HTMLButtonElement;
     const li = target.parentElement as HTMLLIElement;
+    const taskUid = li.className
 
-    li.parentNode?.removeChild(li);
+    this.taskAction
+    .DeleteTask(taskUid)
+    .then(() => {
+      window.alert('Task deleted.')
+    })
+    .catch((error) => {
+      window.alert(error)
+    })
   }
 
-  onTranslateText() {
-    this.translateService.translate(this.task).subscribe((result) => {
-      this.translatedText = result;
-    })
+  onSwitchToSP() {
+    this.onSpanish = true;
+
+    // this.taskList
+    // .forEach( task => {
+    //   const translatedTask = {...task}
+
+    //   this.translateService.translate(task.content).subscribe((result) => {
+    //     translatedTask.content = result
+    //   })
+
+    //   this.translatedTaskList.push(translatedTask)
+    // })
+    // this.taskAction.GetAllTasks().pipe( 
+    //   map(tasks=> {
+    //     const translatedTasks = tasks.map(task=> { 
+    //       this.translateService.translate(task.content).subscribe(result => task.content = result)
+    //     })
+    //     return translatedTasks
+    //   })
+    //   )}
+    // .subscribe( translatedTasks => this.translatedTaskList = translatedTasks )
+
+    this.taskAction
+    .GetAllTasks()
+    .pipe(
+      map(tasks=> {
+        tasks.map(task=> 
+          this.translateService.translate(task.content).subscribe(result=> task.content=result))
+
+        return tasks
+      })
+    )
+    .subscribe(translatedTasks => this.translatedTaskList = translatedTasks)
+  }
+
+  onSwitchToEN() {
+    this.onSpanish = false;
+    this.translatedTaskList = [];
   }
 }
