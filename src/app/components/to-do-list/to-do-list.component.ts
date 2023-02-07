@@ -30,7 +30,7 @@ export class ToDoListComponent {
     this.taskAction.GetAllTasks().subscribe(docs => this.taskList = docs);
   }
 
-  onChangeTask(event: Event) {
+  onChangeInput(event: Event) {
     const target = event.target as HTMLInputElement;
     const value: string = target.value;
 
@@ -78,26 +78,6 @@ export class ToDoListComponent {
 
   onSwitchToSP() {
     this.onSpanish = true;
-
-    // this.taskList
-    // .forEach( task => {
-    //   const translatedTask = {...task}
-
-    //   this.translateService.translate(task.content).subscribe((result) => {
-    //     translatedTask.content = result
-    //   })
-
-    //   this.translatedTaskList.push(translatedTask)
-    // })
-    // this.taskAction.GetAllTasks().pipe( 
-    //   map(tasks=> {
-    //     const translatedTasks = tasks.map(task=> { 
-    //       this.translateService.translate(task.content).subscribe(result => task.content = result)
-    //     })
-    //     return translatedTasks
-    //   })
-    //   )}
-    // .subscribe( translatedTasks => this.translatedTaskList = translatedTasks )
 
     this.taskAction
     .GetAllTasks()
