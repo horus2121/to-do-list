@@ -41,7 +41,7 @@ export class ToDoListComponent {
     if (this.taskContent) {
     const task = {
       content: this.taskContent,
-      status: "UNDONE"
+      done: false
     }
 
     this.taskAction
@@ -59,6 +59,21 @@ export class ToDoListComponent {
       window.alert(error)
     })
     }
+  }
+
+  onChecked(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const li = target.parentElement?.parentElement as HTMLLIElement;
+    const taskUid = li.className
+
+    this.taskAction
+    .EditTask(taskUid)
+    .then(() => {
+      window.alert('Task updated.')
+    })
+    .catch((error) => {
+      window.alert(error)
+    })
   }
 
   onDeleteTask(event: Event) {
